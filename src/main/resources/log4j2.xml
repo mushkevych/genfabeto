@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="debug" strict="true" name="PublishServer" packages="com.samsung.amber.publish">
+    <properties>
+        <property name="path_log_dir">${log.path}</property>
+        <property name="path_log_filename">${log.path}/consumer.log</property>
+        <property name="path_rootlog_filename">${log.path}/root_logger.log</property>
+        <property name="level">${loggingLevel}</property>
+    </properties>
+
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <RollingFile name="RollingFile" fileName="${path_log_filename}"
+                     filePattern="${path_log_dir}/$${date:yyyy-MM}/publish-%d{yyyy-MM-dd-HH}-%i.log.gz">
+            <PatternLayout>
+                <pattern>%d %p %c{1.} [%t] %m%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="24" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="250 MB"/>
+            </Policies>
+        </RollingFile>
+        <RollingFile name="RootRollingFile" fileName="${path_rootlog_filename}"
+                     filePattern="${path_log_dir}/$${date:yyyy-MM}/publish-%d{yyyy-MM-dd-HH}-%i.log.gz">
+            <PatternLayout>
+                <pattern>%d %p %c{1.} [%t] %m%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="24" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="250 MB"/>
+            </Policies>
+        </RollingFile>
+    </appenders>
+
+    <loggers>
+        <logger name="com.github.mushkevych" level="${level}" additivity="false">
+            <appender-ref ref="RollingFile"/>
+            <appender-ref ref="Console"/>
+        </logger>
+        <logger name="org.springframework" level="info" additivity="false">
+            <appender-ref ref="Console"/>
+        </logger>
+        <root level="error">
+            <appender-ref ref="RootRollingFile"/>
+        </root>
+    </loggers>
+
+</configuration>

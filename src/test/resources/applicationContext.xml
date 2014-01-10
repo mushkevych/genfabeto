@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="a" class="com.github.mushkevych.genfabeto.BeanA">
+		<property name="b" ref="b"/>
+	</bean>
+
+    <util:map id="beanArguments" value-type="java.lang.Object">
+        <entry key="c" value-ref="c" />
+    </util:map>
+
+    <bean id="b" class="com.github.mushkevych.genfabeto.Ganfabeto" factory-method="createBean">
+		<constructor-arg value="com.github.mushkevych.genfabeto.BeanB"/>
+		<constructor-arg ref="beanArguments"/>
+	</bean>
+
+	<bean id="c" class="com.github.mushkevych.genfabeto.BeanC">
+        <property name="bool" value="true"/>
+		<property name="message" value="Unit Test Message"/>
+	</bean>
+
+</beans>
